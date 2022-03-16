@@ -27,3 +27,6 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
+# ignore
+src/main/resource/application-test.properties
