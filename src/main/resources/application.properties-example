@@ -1,17 +1,21 @@
-spring.profiles.active=test
-
-spring.datasource.url=
+# DataSource Configuration
+spring.datasource.url=jdbc:mysql://[url]:[port]/[database]// opicional caso dê erro de zone time?serverTimezone=UTC
 spring.datasource.username=
 spring.datasource.password=
-
-
 spring.datasource.testWhileIdle=false
 spring.datasource.validationQuery=SELECT 1
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
-spring.jpa.show-sql=false
+# JPA Configuration
+spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
-
 spring.jpa.hibernate.ddl-auto=update
-
 spring.jpa.hibernate.naming-strategy=org.hibernate.cfg.ImprovedNamingStrategy
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+
+# Spring Boot DevTools Configuration
+spring.devtools.remote.secret=123
+
+# JWT Configuration
+forum.jwt.expiration=3600000
+forum.jwt.secret= [token padrão jwt para configurar senhas e acessos]

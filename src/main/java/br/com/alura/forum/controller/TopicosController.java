@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import br.com.alura.forum.config.security.TokenService;
+import br.com.alura.forum.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -41,6 +43,8 @@ public class TopicosController {
 	private TopicoRepository topicoRepository;
 	@Autowired
 	private CursoRepository cursoRepository;
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
 	@GetMapping
 	@Cacheable(value = "listaDeTopicos")
@@ -61,7 +65,7 @@ public class TopicosController {
 	@Transactional
 	@CacheEvict(value = "listaDeTopicos",allEntries = true)
 	public ResponseEntity<TopicoDTO> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder) {
-		Topico topico = form.converter(cursoRepository);
+		Topico topico = form.converter(cursoRepository, usuarioRepository.findById(TokenService.getIdUsuario()).get());
 		topicoRepository.save(topico);
 
 		URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();

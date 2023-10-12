@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # Serviço para o banco de dados MySQL
+  mysql:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "4000:3306"
+    networks:
+      - db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: forum
+    volumes:
+      - db_data:/var/lib/mysql
+
+
+  # Serviço para a aplicação Spring Boot
+  forum:
+    build: ./
+    restart: always
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    depends_on:
+      - mysql
+    networks:
+      - db
+    #      - front
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/forum?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_TESTWHILEIDLE: false
+      SPRING_DATASOURCE_VALIDATIONQUERY: SELECT 1
+      SPRING_JPA_SHOWSQL: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMATSQL: true
+      SPRING_JPA_HIBERNATE_DDLAUTO: update
+      SPRING_JPA_HIBERNATE_NAMINGSTRATEGY: org.hibernate.cfg.ImprovedNamingStrategy
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5InnoDBDialect
+      SPRING.JPA.PROPERTIES.HIBERNATE.CONNECTION.USEUNICODE: TRUE
+      SPRING.DEVTOOLS.REMOTE.SECRET: 123
+      FORUM.JWT.EXPIRATION: 3600000
+      FORUM.JWT.SECRET: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+
+networks:
+  db:
+#  front:
+volumes:
+  db_data: {}

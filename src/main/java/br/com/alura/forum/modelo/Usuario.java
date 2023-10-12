@@ -26,7 +26,7 @@ public class Usuario implements UserDetails {
 	private String senha;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Perfil> perfis = new ArrayList<Perfil>();
+	private List<Perfil> perfis = new ArrayList<>();
 
 	@Override
 	public int hashCode() {
@@ -127,4 +127,16 @@ public class Usuario implements UserDetails {
 		return true;
 	}
 
+	public Usuario() {
+	}
+
+	public void setPerfis(Perfil perfil) {
+		this.perfis.add(perfil);
+	}
+
+	public Usuario(String nome, String email, String senha) {
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+	}
 }

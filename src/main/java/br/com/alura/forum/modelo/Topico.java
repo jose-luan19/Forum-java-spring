@@ -31,10 +31,11 @@ public class Topico {
 	@OneToMany(mappedBy = "topico")
 	private List<Resposta> respostas = new ArrayList<>();
 
-	public Topico(String titulo, String mensagem, Curso curso) {
+	public Topico(String titulo, String mensagem, Curso curso, Usuario autor) {
 		this.titulo = titulo;
 		this.mensagem = mensagem;
 		this.curso = curso;
+		this.autor = autor;
 	}
 	
 	public Topico(){}

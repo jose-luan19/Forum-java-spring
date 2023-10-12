@@ -3,6 +3,7 @@ package br.com.alura.forum.controller.form;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import br.com.alura.forum.modelo.Usuario;
 import org.hibernate.validator.constraints.Length;
 
 import br.com.alura.forum.modelo.Curso;
@@ -39,9 +40,14 @@ public class TopicoForm {
 	public void setNomeCurso(String nomeCurso) {
 		this.nomeCurso = nomeCurso;
 	}
-	public Topico converter(CursoRepository cursoRepository) {
+	public Topico converter(CursoRepository cursoRepository, Usuario autor) {
+
 		Curso curso = cursoRepository.findByNome(nomeCurso);
-		return new Topico(titulo, mensagem, curso);
+		if (curso == null) {
+			curso = new Curso(nomeCurso,"categoria_"+ nomeCurso);
+			cursoRepository.save(curso);
+		}
+		return new Topico(titulo, mensagem, curso, autor);
 	}
 	
 }
