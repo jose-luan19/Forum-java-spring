@@ -2,7 +2,7 @@
 
 ## Rodando com docker:
 
-```console
+```bash
     docker-compose up
 ```
 ### url swagger: http://localhost:8080/swagger-ui.html
